@@ -12,7 +12,7 @@
 namespace Panda\Yandex\SpeechKitSDK;
 
 /**
- * Class Detect Формирование задачи для распознавания речи (Translate-To-Detect, STT)
+ * Class Text Формирование задачи для распознавания речи (Translate-To-Detect, STT)
  * @package Panda\Yandex\SpeechKitSDK
  */
 class Text extends Kit implements Task

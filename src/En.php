@@ -14,7 +14,7 @@ namespace Panda\Yandex\SpeechKitSDK;
 use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
 
 /**
- * Class Voice Параметры голоса (Основной язык: en-US)
+ * Class En Параметры голоса (Основной язык: en-US)
  * @package Panda\Yandex\SpeechKitSDK
  */
 class En implements Voice
