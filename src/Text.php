@@ -12,7 +12,7 @@
 namespace Panda\Yandex\SpeechKitSDK;
 
 /**
- * Class Text Формирование задачи для распознавания речи (Translate-To-Detect, STT)
+ * Class Text Формирование задачи для распознавания речи (Speech-To-Text, STT)
  * @package Panda\Yandex\SpeechKitSDK
  */
 class Text extends Kit implements Task
@@ -33,7 +33,7 @@ class Text extends Kit implements Task
     private $file;
 
     /**
-     * Translate constructor.
+     * Text constructor.
      * @param string $file Указатель на аудио-файл
      */
     public function __construct(string $file)
@@ -76,7 +76,7 @@ class Text extends Kit implements Task
      */
     public function getURL(): string
     {
-        return sprintf("%s?%s",
+        return sprintf('%s?%s',
             URL::RECOGNIZE,
             http_build_query($this->task));
     }

@@ -113,7 +113,7 @@ try {
     // Добавление обязательного параметра, произвольно: "Голос"
     // Возможно использование статического метода "random" в классах: "Ru", "En", "Tr"
     $speech->setVoice(Ru::random());
-} catch (ClientException|ArgumentCountError $e) {
+} catch (ClientException | ArgumentCountError $e) {
     echo $e->getMessage();
 
     // Добавление обязательного параметра, в случае ошибки: "Голос"

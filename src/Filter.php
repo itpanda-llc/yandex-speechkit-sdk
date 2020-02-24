@@ -18,12 +18,12 @@ namespace Panda\Yandex\SpeechKitSDK;
 class Filter
 {
     /**
-     * Включен
+     * Отключен
      */
     public const FALSE = 'false';
 
     /**
-     * Отключен
+     * Включен
      */
     public const TRUE = 'true';
 }

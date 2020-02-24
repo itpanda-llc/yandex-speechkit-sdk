@@ -11,14 +11,28 @@
 
 namespace Panda\Yandex\SpeechKitSDK;
 
+use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
+
 /**
- * Interface Voice Параметры голоса
+ * Class Voice Параметры голоса
  * @package Panda\Yandex\SpeechKitSDK
  */
-interface Voice
+class Voice
 {
     /**
      * @return string Случайное значение параметра
      */
-    public static function random(): string;
+    public static function random(): string
+    {
+        try {
+            $reflectionClass = new \ReflectionClass(static::class);
+            $constants = $reflectionClass->getConstants();
+        } catch (\ReflectionException $e) {
+            throw new ClientException(sprintf('%s. Ошибка: %s',
+                Message::RANDOM_ERROR,
+                $e->getMessage()));
+        }
+
+        return $constants[array_rand($constants)];
+    }
 }

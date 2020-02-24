@@ -54,10 +54,10 @@ abstract class Kit implements Task
      */
     public function setFormat(string $format): Kit
     {
-        if ($format === Format::OGGOPUS) $this->task[self::RATE] = null;
+        $this->task[self::RATE] =
+            ($format !== Format::OGGOPUS) ? Rate::HIGH : null;
 
         $this->task[self::FORMAT] = $format;
-        $this->task[self::RATE] = Rate::HIGH;
 
         return $this;
     }
@@ -70,10 +70,8 @@ abstract class Kit implements Task
     {
         $format = $this->task[self::FORMAT] ?? null;
 
-        if ($format === Format::OGGOPUS) $rate = null;
-        if (is_null($format)) $rate = null;
-
-        $this->task[self::RATE] = $rate;
+        $this->task[self::RATE] =
+            ($format !== Format::OGGOPUS) ? $rate : null;
 
         return $this;
     }

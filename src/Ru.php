@@ -11,13 +11,11 @@
 
 namespace Panda\Yandex\SpeechKitSDK;
 
-use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
-
 /**
  * Class Ru Параметры голоса (Основной язык: ru-RU)
  * @package Panda\Yandex\SpeechKitSDK
  */
-class Ru implements Voice
+class Ru extends Voice
 {
     /**
      * Пол: Ж
@@ -53,21 +51,4 @@ class Ru implements Voice
      * Пол: М
      */
     public const FILIPP = 'filipp';
-
-    /**
-     * @return string Случайное значение параметра
-     */
-    public static function random(): string
-    {
-        try {
-            $reflectionClass = new \ReflectionClass(__CLASS__);
-            $constants = $reflectionClass->getConstants();
-        } catch (\ReflectionException $e) {
-            throw new ClientException(sprintf("%s. Ошибка: %s",
-                Message::RANDOM_ERROR,
-                $e->getMessage()));
-        }
-
-        return $constants[array_rand($constants)];
-    }
 }

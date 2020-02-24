@@ -14,7 +14,7 @@ namespace Panda\Yandex\SpeechKitSDK;
 use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
 
 /**
- * Class Speech Формирование задачи для синтеза речи (Detect-To-Translate, TTS)
+ * Class Speech Формирование задачи для синтеза речи (Text-To-Speech, TTS)
  * @package Panda\Yandex\SpeechKitSDK
  */
 class Speech extends Kit implements Task
@@ -45,7 +45,7 @@ class Speech extends Kit implements Task
     private const SPEED = 'speed';
 
     /**
-     * Translate constructor.
+     * Speech constructor.
      * @param string $text Текст
      */
     public function __construct(string $text)

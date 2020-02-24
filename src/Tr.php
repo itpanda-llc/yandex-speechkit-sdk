@@ -11,13 +11,11 @@
 
 namespace Panda\Yandex\SpeechKitSDK;
 
-use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
-
 /**
  * Class Tr Параметры голоса (Основной язык: tr-Tr)
  * @package Panda\Yandex\SpeechKitSDK
  */
-class Tr implements Voice
+class Tr extends Voice
 {
     /**
      * Пол: Ж
@@ -28,21 +26,4 @@ class Tr implements Voice
      * Пол: М
      */
     public const ERKANYAVAS = 'erkanyavas';
-
-    /**
-     * @return string Случайное значение параметра
-     */
-    public static function random(): string
-    {
-        try {
-            $reflectionClass = new \ReflectionClass(__CLASS__);
-            $constants = $reflectionClass->getConstants();
-        } catch (\ReflectionException $e) {
-            throw new ClientException(sprintf("%s. Ошибка: %s",
-                Message::RANDOM_ERROR,
-                $e->getMessage()));
-        }
-
-        return $constants[array_rand($constants)];
-    }
 }
