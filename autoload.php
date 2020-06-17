@@ -1,27 +1,21 @@
 <?php
 
-spl_autoload_register(
-
-    function ($class)
+spl_autoload_register(function($className)
+{
+    if (strpos($className,
+            $prefix = 'Panda\Yandex\SpeechKitSDK\\') === 0)
     {
-        $prefix = 'Panda\Yandex\SpeechKitSDK\\';
-
-        if (strpos($class, $prefix) !== 0) return;
-
-        $fileName = sprintf('%s.php',
+        $fileName = sprintf("%s.php",
             str_replace('\\',
                 DIRECTORY_SEPARATOR,
-                substr($class, strlen($prefix))));
+                substr($className, strlen($prefix))));
 
-        $filePath = sprintf('%s%ssrc%s%s',
+        $filePath = sprintf("%s%ssrc%s%s",
             __DIR__,
             DIRECTORY_SEPARATOR,
             DIRECTORY_SEPARATOR,
             $fileName);
 
-        if (!is_readable($filePath)) return;
-
-        require $filePath;
+        if (is_readable($filePath)) require $filePath;
     }
-
-);
+});

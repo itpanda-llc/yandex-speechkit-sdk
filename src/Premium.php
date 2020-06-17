@@ -8,19 +8,19 @@
 namespace Panda\Yandex\SpeechKitSDK;
 
 /**
- * Class En
+ * Class Premium
  * @package Panda\Yandex\SpeechKitSDK
- * Параметры голоса (Основной язык: en-US)
+ * Параметры голоса (Премиум-голоса)
  */
-class En extends Voice
+class Premium extends Voice
 {
     /**
      * Пол: Ж
      */
-    public const ALYSS = 'alyss';
+    public const ALENA = 'alena';
 
     /**
      * Пол: М
      */
-    public const NICK = 'nick';
+    public const FILIPP = 'filipp';
 }

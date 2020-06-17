@@ -3,8 +3,7 @@
     "description": "Library for integration with the speech technology service Yandex SpeechKit",
     "type": "library",
     "keywords": [
-        "panda", "speechkit", "voice", "yandex", "synthesize", "language", "recognize", "speech",
-        "cloud", "php", "sdk", "api", "rest-api", "http-client", "integration", "backend"
+        "panda", "speechkit", "yandex"
     ],
     "homepage": "https://github.com/itpanda-llc/yandex-speechkit-php-sdk",
     "license": "MIT",

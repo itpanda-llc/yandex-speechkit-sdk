@@ -1,12 +1,8 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/SpeechKitSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-SpeechKit-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\SpeechKitSDK;
@@ -14,8 +10,9 @@ namespace Panda\Yandex\SpeechKitSDK;
 use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
 
 /**
- * Class Voice Параметры голоса
+ * Class Voice
  * @package Panda\Yandex\SpeechKitSDK
+ * Параметры голоса
  */
 class Voice
 {
@@ -25,12 +22,10 @@ class Voice
     public static function random(): string
     {
         try {
-            $reflectionClass = new \ReflectionClass(static::class);
-            $constants = $reflectionClass->getConstants();
+            $constants = (new \ReflectionClass(static::class))
+                ->getConstants();
         } catch (\ReflectionException $e) {
-            throw new ClientException(sprintf('%s. Ошибка: %s',
-                Message::RANDOM_ERROR,
-                $e->getMessage()));
+            throw new ClientException($e->getMessage());
         }
 
         return $constants[array_rand($constants)];

@@ -1,19 +1,16 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/SpeechKitSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-SpeechKit-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\SpeechKitSDK;
 
 /**
- * Class Kit Комплект
+ * Class Kit
  * @package Panda\Yandex\SpeechKitSDK
+ * Комплект
  */
 abstract class Kit implements Task
 {
@@ -90,7 +87,7 @@ abstract class Kit implements Task
     abstract public function getParam(): string;
 
     /**
-     * @return string URL web-запроса
+     * @return string URL-адрес web-запроса
      */
     abstract public function getURL(): string;
 }

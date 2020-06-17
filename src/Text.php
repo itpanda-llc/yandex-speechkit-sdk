@@ -1,19 +1,16 @@
 <?php
 
 /**
- * Этот файл является частью репозитория
- * Panda/Yandex/SpeechKitSDK.
- *
- * Для получения полной информации об авторских правах
- * и лицензии, пожалуйста, просмотрите файл LICENSE,
- * который был распространен с этим исходным кодом.
+ * Файл из репозитория Yandex-SpeechKit-PHP-SDK
+ * @link https://github.com/itpanda-llc
  */
 
 namespace Panda\Yandex\SpeechKitSDK;
 
 /**
- * Class Text Формирование задачи для распознавания речи (Speech-To-Text, STT)
+ * Class Text
  * @package Panda\Yandex\SpeechKitSDK
+ * Формирование задачи для распознавания речи (Speech-To-Text, STT)
  */
 class Text extends Kit implements Task
 {
@@ -72,11 +69,11 @@ class Text extends Kit implements Task
     }
 
     /**
-     * @return string URL web-запроса
+     * @return string URL-адрес web-запроса
      */
     public function getURL(): string
     {
-        return sprintf('%s?%s',
+        return sprintf("%s?%s",
             URL::RECOGNIZE,
             http_build_query($this->task));
     }
