@@ -2,63 +2,55 @@
 
 /**
  * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
  */
 
-namespace Panda\Yandex\SpeechKitSDK;
+declare(strict_types=1);
 
-use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
+namespace Panda\Yandex\SpeechKitSdk;
 
 /**
  * Class Request
- * @package Panda\Yandex\SpeechKitSDK
+ * @package Panda\Yandex\SpeechKitSdk
  * Web-запрос
  */
 class Request
 {
     /**
      * @param string $url URL-адрес
-     * @param string $data Параметры
-     * @param array|null $headers Заголовки
+     * @param string|null $data Параметры
+     * @param array $headers Заголовки
      * @return string Результат
      */
     protected function send(string $url,
-                            string $data,
-                            array $headers = null): string
+                            ?string $data,
+                            array $headers): string
     {
         $ch = curl_init($url);
 
-        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_POST, true);
 
-        $file = null;
-
-        if (is_file($data)) {
-            $file = fopen($data, 'rb');
-
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
-            curl_setopt($ch, CURLOPT_INFILE, $file);
-            curl_setopt($ch, CURLOPT_INFILESIZE, filesize($data));
-        } else {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        }
-
-        if (!is_null($headers)) {
+        if ($headers !== [])
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        }
+
+        if (!is_null($data))
+            if (is_file(realpath($data))) {
+                $file = fopen($data, 'rb');
+
+                curl_setopt($ch, CURLOPT_INFILE, $file);
+                curl_setopt($ch, CURLOPT_INFILESIZE, filesize($data));
+            } else
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
         $response = curl_exec($ch);
 
-        if (!is_null($file)) fclose($file);
+        if (isset($file)) fclose($file);
 
-        if ($response === false) {
-            throw new ClientException(curl_error($ch));
-        }
+        if ($response === false)
+            throw new Exception\ClientException(curl_error($ch));
 
         curl_close($ch);
 

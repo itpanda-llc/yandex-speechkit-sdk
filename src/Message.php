@@ -2,20 +2,25 @@
 
 /**
  * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
  */
 
-namespace Panda\Yandex\SpeechKitSDK;
+namespace Panda\Yandex\SpeechKitSdk;
 
 /**
- * Class Message
- * @package Panda\Yandex\SpeechKitSDK
+ * Class Text
+ * @package Panda\Yandex\SpeechKitSdk
  * Сообщения исключений
  */
 class Message
 {
     /**
-     * Ошибка длины значения параметра(ов)
+     * Ошибка длины параметра(ов)
      */
-    public const LENGTH_ERROR = 'Превышена длина значения параметра(ов)';
+    public const LENGTH_ERROR = 'Превышена длина параметра(ов)';
+
+    /**
+     * Ошибка размера параметра(ов)
+     */
+    public const SIZE_ERROR = 'Превышен размер параметра(ов)';
 }

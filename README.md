@@ -2,216 +2,210 @@
 
 Библиотека для интеграции с сервисом речевых технологий ["Yandex SpeechKit"](https://cloud.yandex.ru/services/speechkit)
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/itpanda-llc/yandex-speechkit-sdk)](https://packagist.org/packages/itpanda-llc/yandex-speechkit-sdk/stats)
+![Packagist License](https://img.shields.io/packagist/l/itpanda-llc/yandex-speechkit-sdk)
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/itpanda-llc/yandex-speechkit-sdk)
 
 ## Ссылки
 
 * [Разработка](https://github.com/itpanda-llc)
-* [О проекте](https://cloud.yandex.ru/services/speechkit)
-* [Документация](https://cloud.yandex.ru/docs/speechkit)
+* [О проекте (Yandex Cloud)](https://cloud.yandex.ru)
+* [О проекте (Yandex Identity and Access Management)](https://cloud.yandex.ru/services/iam/)
+* [О проекте (Yandex SpeechKit)](https://cloud.yandex.ru/services/speechkit)
+* [Документация (Yandex Cloud)](https://cloud.yandex.ru/docs)
+* [Документация (Yandex Identity and Access Management)](https://cloud.yandex.ru/docs/iam/)
+* [Документация (Yandex SpeechKit)](https://cloud.yandex.ru/docs/speechkit/)
 
 ## Возможности
 
-* Формирование параметров синтезируемого аудио (добавление текста, выбор языка, голоса, эмоциональной окраски, темпа, формата, частоты дискретизации для произносимой речи)
-* Формирование параметров распознавания короткого аудио (добавление, выбор формата, частоты дискретизации, языковой модели и фильтра ненормативной лексики аудио, указание языка произношения)
-* Аутентификация в HTTP API-сервисе ["Яндекс.Облако"](https://cloud.yandex.ru) с помощью пользовательского аккаунта
-* Синтезирование и распознавание речи с помощью сервиса ["Yandex SpeechKit"](https://cloud.yandex.ru/services/speechkit)
+* Аутентификация в API ["Yandex Cloud"](https://cloud.yandex.ru)
+* Распознавание коротких аудио
+* Синтез речи
 
 ## Требования
 
 * PHP >= 7.2
-* JSON
 * cURL
+* JSON
+* mbstring
 
 ## Установка
 
 ```shell script
-php composer.phar require "itpanda-llc/yandex-speechkit-php-sdk"
+composer require itpanda-llc/yandex-speechkit-sdk
 ```
 
-или
-
-```shell script
-git clone https://github.com/itpanda-llc/yandex-speechkit-php-sdk
-```
-
-## Примеры использования
-
-Подключение
+## Подключение
 
 ```php
 require_once 'vendor/autoload.php';
 ```
 
-или
+## Использование
+
+### Создание сервиса / Аутентификация
+
+* С аккаунтом на Яндексе (OAuth-токен)
 
 ```php
-require_once 'yandex-speechkit-php-sdk/autoload.php';
-```
+use Panda\Yandex\SpeechKitSdk;
 
-Импорт
-
-```php
-use Panda\Yandex\SpeechKitSDK\Cloud;
-use Panda\Yandex\SpeechKitSDK\Speech;
-use Panda\Yandex\SpeechKitSDK\Text;
-use Panda\Yandex\SpeechKitSDK\Lang;
-use Panda\Yandex\SpeechKitSDK\Ru;
-use Panda\Yandex\SpeechKitSDK\En;
-use Panda\Yandex\SpeechKitSDK\Tr;
-use Panda\Yandex\SpeechKitSDK\Emotion;
-use Panda\Yandex\SpeechKitSDK\Speed;
-use Panda\Yandex\SpeechKitSDK\Format;
-use Panda\Yandex\SpeechKitSDK\Rate;
-use Panda\Yandex\SpeechKitSDK\Topic;
-use Panda\Yandex\SpeechKitSDK\Filter;
-use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
-```
-
-### Создание сервиса и аутентификация
-
-```php
 try {
-    // Обязательные параметры: "OAUTH-токен", "ID каталога"
-    $cloud = new Cloud('AgAAAAASeN6XAATuwduwAAZFyUEYsEW1gGjh56d', 'b1g89h70fg5jgg8e1j4d');
-} catch (ClientException $e) {
+    /*
+     * OAuth-токен
+     * ID каталога
+     */
+    $cloud = new SpeechKitSdk\Cloud('oAuthToken', 'folderId');
+} catch (SpeechKitSdk\Exception\ClientException | TypeError $e) {
+    echo $e->getMessage();
+}
+```
+
+* С использованием сервисного аккаунта / федеративного пользователя (IAM-токен)
+
+```php
+use Panda\Yandex\SpeechKitSdk;
+
+try {
+    // IAM-токен
+    $cloud = new SpeechKitSdk\Cloud('iamToken');
+} catch (SpeechKitSdk\Exception\ClientException $e) {
+    echo $e->getMessage();
+}
+```
+
+* С использованием сервисного аккаунта (API-ключ)
+
+```php
+use Panda\Yandex\SpeechKitSdk;
+
+try {
+    // API-ключ
+    $cloud = SpeechKitSdk\Cloud::createApi('apiKey');
+} catch (SpeechKitSdk\Exception\ClientException $e) {
+    echo $e->getMessage();
+}
+```
+
+### Распознавание коротких аудио
+
+* Создание запроса
+
+```php
+use Panda\Yandex\SpeechKitSdk;
+
+try {
+    // Аудио-файл
+    $recognize = new SpeechKitSdk\Recognize('greeting_developer.ogg');
+} catch (SpeechKitSdk\Exception\ClientException $e) {
+    echo $e->getMessage();
+}
+```
+
+* Установка параметров
+
+```php
+use Panda\Yandex\SpeechKitSdk;
+
+try {
+    // Аудио-файл
+    $recognize->setFile('greeting_developer.raw');
+} catch (SpeechKitSdk\Exception\ClientException $e) {
+    echo $e->getMessage();
+}
+
+// Язык
+$recognize->setLang(SpeechKitSdk\Lang::RU_RU)
+
+    // Языковая модель распознавания
+    ->setTopic(SpeechKitSdk\Topic\Ru::GENERAL_RC)
+
+    // Фильтр ненормативной лексики
+    ->setProfanityFilter(SpeechKitSdk\ProfanityFilter::FALSE)
+
+    // Формат аудио
+    ->setFormat(SpeechKitSdk\Format::LPCM)
+
+    // Частота дискретизации аудио
+    ->setSampleRate(SpeechKitSdk\SampleRate::KHZ_48);
+```
+
+* Выполнение запроса
+
+```php
+use Panda\Yandex\SpeechKitSdk;
+
+try {
+    print_r($cloud->request($recognize));
+} catch (SpeechKitSdk\Exception\ClientException $e) {
     echo $e->getMessage();
 }
 ```
 
 ### Синтез речи
 
-Создание задачи
+* Создание запроса
 
 ```php
+use Panda\Yandex\SpeechKitSdk;
+
 try {
-    // Обязательный параметр: "Текст"
-    $speech = new Speech('Привет, разработчик!');
-} catch (ClientException $e) {
+    // Текст, который нужно озвучить
+    $synthesize= new SpeechKitSdk\Synthesize('Привет, разработчик!');
+} catch (SpeechKitSdk\Exception\ClientException $e) {
     echo $e->getMessage();
 }
 ```
 
-Добавление параметров речи (необязательно)
+* Установка параметров
 
 ```php
-// Уточнение параметра текста признаком "SSML-формата" (необязательно)
-$speech->setSSML()
-
-    /*
-     * Добавление обязательного параметра: "Голос"
-     * Возможно использование других констант классов "Ru", "En", "Tr" в качестве параметра
-     */
-    ->setVoice(Ru::OKSANA);
+use Panda\Yandex\SpeechKitSdk;
 
 try {
-    /*
-     * Добавление обязательного параметра, произвольно: "Голос"
-     * Возможно использование статического метода "random" в классах: "Ru", "En", "Tr"
-     */
-    $speech->setVoice(Ru::random());
-} catch (ClientException | ArgumentCountError $e) {
-    echo $e->getMessage();
-
-    /*
-     * Добавление обязательного параметра, произвольно: "Голос"
-     * Возможно использование статического метода "random" в классах: "Ru", "En", "Tr"
-     */
-    $speech->setVoice(Ru::OKSANA);
-}
-
-/*
- * Добавление обязательного параметра: "Язык"
- * Возможно использование других констант класса "Lang" в качестве параметра
- */
-$speech->setLang(Lang::RU)
-
-    /*
-     * Добавление обязательного параметра: "Эмоциональная окраска"
-     * Возможно использование других констант класса "Emotion" в качестве параметра
-     */
-    ->setEmotion(Emotion::GOOD)
-
-    /*
-     * Добавление обязательного параметра: "Темп"
-     * Возможно использование других констант класса "Speed" в качестве параметра
-     */
-    ->setSpeed(Speed::NORMAL)
-
-    /*
-     * Добавление обязательного параметра: "Формат аудио"
-     * Возможно использование других констант класса "Format" в качестве параметра
-     */
-    ->setFormat(Format::LPCM)
-
-    /*
-     * Добавление обязательного параметра: "Частота дискретизации"
-     * Возможно использование других констант класса "Rate" в качестве параметра
-     */
-    ->setRate(Rate::HIGH);
-```
-
-Выполнение задачи
-
-```php
-try {
-    // Обязательный параметр: "Задача"
-    file_put_contents('greeting_developer.ogg', $cloud->request($speech));
-} catch (ClientException $e) {
+    // Текст, который нужно озвучить
+    $synthesize->setText('Привет, разработчик!');
+} catch (SpeechKitSdk\Exception\ClientException $e) {
     echo $e->getMessage();
 }
-```
 
-### Распознавание речи
+// Текст, который нужно озвучить, в формате SSML
+$synthesize->setSsml('<speak>Привет<break time="1s"/>разработчик!</speak>')
 
-Создание задачи
+    // Язык
+    ->setLang(SpeechKitSdk\Lang::RU_RU)
 
-```php
-// Обязательный параметр: "Указатель на файл"
-$text = new Text('greeting_developer.ogg');
-```
+    // Желаемый голос
+    ->setVoice(SpeechKitSdk\Voice\Ru::OKSANA);
 
-Добавление параметров речи (необязательно)
-
-```php
-/*
- * Добавление обязательного параметра: "Язык"
- * Возможно использование других констант класса "Lang" в качестве параметра
- */
-$text->setLang(Lang::RU)
-
-    /*
-     * Добавление обязательного параметра: "Языковая модель"
-     * Возможно использование других констант класса "Topic" в качестве параметра
-     */
-    ->setTopic(Topic::GENERAL)
-
-    /*
-     * Добавление обязательного параметра: "Фильтр ненормативной лексики"
-     * Возможно использование других констант класса "Filter" в качестве параметра
-     */
-    ->setFilter(Filter::FALSE)
-
-    /*
-     * Добавление обязательного параметра: "Формат аудио"
-     * Возможно использование других констант класса "Format" в качестве параметра
-     */
-    ->setFormat(Format::LPCM)
-
-    /*
-     * Добавление обязательного параметра: "Частота дискретизации"
-     * Возможно использование других констант класса "Rate" в качестве параметра
-     */
-    ->setRate(Rate::HIGH);
-```
-
-Выполнение задачи
-
-```php
 try {
-    // Обязательный параметр: "Задача"
-    print_r($cloud->request($text));
-} catch (ClientException $e) {
+    // Желаемый голос
+    $synthesize->setVoice(SpeechKitSdk\Voice\Ru::random());
+} catch (SpeechKitSdk\Exception\ClientException | ArgumentCountError $e) {
+    echo $e->getMessage();
+}
+
+// Эмоциональная окраска голоса
+$synthesize->setEmotion(SpeechKitSdk\Emotion::GOOD)
+
+    // Скорость (темп)
+    ->setSpeed(SpeechKitSdk\Speed::AVERAGE)
+
+    // Формат аудио
+    ->setFormat(SpeechKitSdk\Format::LPCM)
+
+    // Частота дискретизации аудио
+    ->setSampleRate(SpeechKitSdk\SampleRate::KHZ_48);
+```
+
+* Выполнение запроса
+
+```php
+use Panda\Yandex\SpeechKitSdk;
+
+try {
+    file_put_contents('greeting_developer.ogg', $cloud->request($synthesize));
+} catch (SpeechKitSdk\Exception\ClientException $e) {
     echo $e->getMessage();
 }
 ```

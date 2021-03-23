@@ -1,26 +1,23 @@
 {
-    "name": "itpanda-llc/yandex-speechkit-php-sdk",
-    "description": "Library for integration with the speech technology service Yandex SpeechKit",
-    "type": "library",
-    "keywords": [
-        "panda", "speechkit", "yandex"
-    ],
+    "name": "itpanda-llc/yandex-speechkit-sdk",
+    "description": "Library for integration with the Yandex SpeechKit speech technology service",
     "homepage": "https://github.com/itpanda-llc/yandex-speechkit-php-sdk",
     "license": "MIT",
     "authors": [
         {
             "name": "itpanda-llc",
-            "homepage": "https://github.com/itpanda-llc",
-            "role": "developer"
+            "homepage": "https://github.com/itpanda-llc"
         }
     ],
+    "require": {
+        "php": ">=7.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
     "autoload": {
         "psr-4": {
-            "Panda\\Yandex\\SpeechKitSDK\\": "src"
+            "Panda\\Yandex\\SpeechKitSdk\\": "src/"
         }
-    },
-    "require": {
-        "ext-json": "*",
-        "ext-curl": "*"
     }
 }

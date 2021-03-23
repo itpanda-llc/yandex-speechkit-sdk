@@ -8,23 +8,21 @@
 namespace Panda\Yandex\SpeechKitSdk;
 
 /**
- * Class Format
+ * Class ProfanityFilter
  * @package Panda\Yandex\SpeechKitSdk
- * Формат аудио
+ * Фильтр ненормативной лексики
  */
-class Format
+class ProfanityFilter
 {
     /**
-     * LPCM
+     * Ненормативная лексика не будет исключена (По умолчанию)
      * @link https://cloud.yandex.ru/docs/speechkit/stt/request
-     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const LPCM = 'lpcm';
+    public const FALSE = false;
 
     /**
-     * OggOpus (По умолчанию)
+     * Ненормативная лексика будет исключена
      * @link https://cloud.yandex.ru/docs/speechkit/stt/request
-     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const OGGOPUS = 'oggopus';
+    public const TRUE = true;
 }

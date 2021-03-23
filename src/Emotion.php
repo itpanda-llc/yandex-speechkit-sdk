@@ -2,30 +2,33 @@
 
 /**
  * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
  */
 
-namespace Panda\Yandex\SpeechKitSDK;
+namespace Panda\Yandex\SpeechKitSdk;
 
 /**
  * Class Emotion
- * @package Panda\Yandex\SpeechKitSDK
- * Параметры эмоциональной окраски
+ * @package Panda\Yandex\SpeechKitSdk
+ * Эмоциональная окраска голоса
  */
 class Emotion
 {
     /**
-     * Доброжелательная
+     * Доброжелательный
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
     public const GOOD = 'good';
 
     /**
-     * Злая
+     * Злой
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
     public const EVIL = 'evil';
 
     /**
-     * Нейтральная
+     * Нейтральный (По умолчанию)
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
     public const NEUTRAL = 'neutral';
 }

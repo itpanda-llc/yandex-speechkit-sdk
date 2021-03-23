@@ -2,88 +2,122 @@
 
 /**
  * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
  */
 
-namespace Panda\Yandex\SpeechKitSDK;
+declare(strict_types=1);
 
-use Panda\Yandex\SpeechKitSDK\Exception\ClientException;
+namespace Panda\Yandex\SpeechKitSdk;
 
 /**
  * Class Cloud
- * @package Panda\Yandex\SpeechKitSDK
- * Аутентификация в облаке и выполнение задачи
+ * @package Panda\Yandex\SpeechKitSdk
+ * Аутентификация / Выполнение задачи/запроса
  */
 class Cloud extends Request
 {
     /**
-     * Наименование параметра "OAUTH-токен"
+     * Наименование параметра "OAuth-токен"
+     * @link https://cloud.yandex.ru/docs/iam/operations/iam-token/create
      */
-    private const OAUTH_TOKEN = 'yandexPassportOauthToken';
+    private const YANDEX_PASSPORT_OAUTH_TOKEN = 'yandexPassportOauthToken';
 
     /**
-     * Наименование параметра "ID каталога"
+     * Наименование параметра "Идентификатор каталога"
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
     private const FOLDER_ID = 'folderId';
 
     /**
-     * @var array Заголовки web-запроса
+     * Наименование параметра "Bearer" в заголовке "Authorization"
+     * @link https://cloud.yandex.ru/docs/iam/concepts/authorization/iam-token
      */
-    private $headers = [];
+    private const BEARER = 'Bearer';
 
     /**
-     * @var array Параметры задачи
+     * Наименование параметра "Api-Key" в заголовке "Authorization"
+     * @link https://cloud.yandex.ru/docs/iam/concepts/authorization/api-key
      */
-    private $task = [];
+    private const API_KEY = 'Api-Key';
+
+    /**
+     * @var array Заголовки web-запроса
+     */
+    public $headers = [];
+
+    /**
+     * @var array Параметры задачи/запроса
+     */
+    public $task = [];
 
     /**
      * Cloud constructor.
-     * @param string $oAuthToken OAUTH-токен
-     * @param string $folderId ID каталога
+     * @param string|null $reason OAuth-токен / IAM-токен
+     * @param string|null $folderId ID каталога
      */
-    public function __construct(string $oAuthToken, string $folderId)
+    public function __construct(string $reason = null,
+                                string $folderId = null)
     {
-        if (strlen($folderId) > Limit::FOLDER_ID_LENGTH) {
-            throw new ClientException(Message::LENGTH_ERROR);
-        }
+        if (!is_null($reason))
+            if (!is_null($folderId)) {
+                if (strlen($folderId) > Limit::FOLDER_ID_LENGTH)
+                    throw new Exception\ClientException(Message::LENGTH_ERROR);
 
-        $iamToken = $this->getIAMToken($oAuthToken);
-        $this->setAuthHeaders($iamToken);
-
-        $this->task[self::FOLDER_ID] = $folderId;
+                $this->addAuthHeader(self::BEARER,
+                    $this->getIamToken($reason))
+                    ->task[self::FOLDER_ID] = $folderId;
+            } else
+                $this->addAuthHeader(self::BEARER, $reason);
     }
 
     /**
-     * @param string $oAuthToken OAUTH-токен
+     * @param string $apiKey API-ключ
+     * @return static
+     */
+    public static function createApi(string $apiKey): self
+    {
+        return (new self)->addAuthHeader(self::API_KEY, $apiKey);
+    }
+
+    /**
+     * @param string $oAuthToken OAuth-токен
      * @return string IAM-токен
      */
-    private function getIAMToken(string $oAuthToken): string
+    private function getIamToken(string $oAuthToken): string
     {
-        $response = parent::send(URL::IAM_TOKEN,
-            json_encode([self::OAUTH_TOKEN => $oAuthToken]));
+        $response = $this->send(Url::TOKENS,
+            json_encode([self::YANDEX_PASSPORT_OAUTH_TOKEN => $oAuthToken]),
+            ['Content-Type: application/json']);
 
-        return json_decode($response, true)['iamToken'];
+        return (string) json_decode($response)->iamToken;
     }
 
     /**
-     * @param string $iamToken IAM-токен
+     * @param string $authType Тип аутентификации
+     * @param string $reason IAM-токен / API-ключ
+     * @return $this
      */
-    private function setAuthHeaders(string $iamToken): void
+    private function addAuthHeader(string $authType,
+                                   string $reason): self
     {
-        $this->headers[] = sprintf("Authorization: Bearer %s",
-            $iamToken);
+        $this->headers[] = sprintf("Authorization: %s %s",
+            $authType,
+            $reason);
+
+        return $this;
     }
 
     /**
-     * @param Task $task Параметры задачи
+     * @param Task $task Параметры задачи/запроса
      * @return string Результат web-запроса
      */
     public function request(Task $task): string
     {
         $task->addParam($this->task);
 
-        return $this->send($task->getURL(),
+        return $this->send($task->getUrl(),
             $task->getParam(),
-            $this->headers);
+            array_merge($this->headers, $task->headers));
     }
 }

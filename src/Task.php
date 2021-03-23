@@ -2,30 +2,102 @@
 
 /**
  * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
  */
 
-namespace Panda\Yandex\SpeechKitSDK;
+declare(strict_types=1);
+
+namespace Panda\Yandex\SpeechKitSdk;
 
 /**
- * Interface Task
- * @package Panda\Yandex\SpeechKitSDK
- * Задача
+ * Class Kit
+ * @package Panda\Yandex\SpeechKitSdk
+ * Задача / Запрос
  */
-interface Task
+abstract class Task
 {
     /**
-     * @param array $param Параметры задачи
+     * Наименования параметра "Язык"
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public function addParam(array $param): void;
+    protected const LANG = 'lang';
 
     /**
-     * @return string Параметры задачи
+     * Наименования параметра "Формат аудио"
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public function getParam(): string;
+    protected const FORMAT = 'format';
 
     /**
-     * @return string URL-адрес web-запроса
+     * Наименования параметра "Частота дискретизации аудио"
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public function getURL(): string;
+    protected const SAMPLE_RATE_HERTZ = 'sampleRateHertz';
+
+    /**
+     * @var array Заголовки web-запроса
+     */
+    public $headers = [];
+
+    /**
+     * @var array Параметры задачи/запроса
+     */
+    protected $task = [];
+
+    /**
+     * @param array $param Параметры задачи/запроса
+     */
+    public function addParam(array $param): void
+    {
+        $this->task += $param;
+    }
+
+    /**
+     * @return string URL-адрес
+     */
+    abstract public function getUrl(): string;
+
+    /**
+     * @return string|null Параметры задачи/запроса
+     */
+    abstract public function getParam(): ?string;
+
+    /**
+     * @param string $lang Язык
+     * @return $this
+     */
+    public function setLang(string $lang): self
+    {
+        $this->task[self::LANG] = $lang;
+
+        return $this;
+    }
+
+    /**
+     * @param string $format Формат аудио
+     * @return $this
+     */
+    public function setFormat(string $format): self
+    {
+        if ($format === Format::OGGOPUS)
+            $this->task[self::SAMPLE_RATE_HERTZ] = null;
+
+        $this->task[self::FORMAT] = $format;
+
+        return $this;
+    }
+
+    /**
+     * @param string $sampleRate Частота дискретизации аудио
+     * @return $this
+     */
+    public function setSampleRate(string $sampleRate): self
+    {
+        $this->task[self::SAMPLE_RATE_HERTZ] = $sampleRate;
+
+        return $this;
+    }
 }

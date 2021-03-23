@@ -8,27 +8,30 @@
 namespace Panda\Yandex\SpeechKitSdk;
 
 /**
- * Class Speed
+ * Class SampleRate
  * @package Panda\Yandex\SpeechKitSdk
- * Скорость (темп)
+ * Частота дискретизации аудио
  */
-class Speed
+class SampleRate
 {
     /**
-     * Самый быстрый
+     * 48 кГц (По умолчанию)
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
      * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const FASTEST = '3.0';
+    public const KHZ_48 = '48000';
 
     /**
-     * Средняя скорость человеческой речи (По умолчанию)
+     * 16 кГц
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
      * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const AVERAGE = '1.0';
+    public const KHZ_16 = '16000';
 
     /**
-     * Самый медленный
+     * 8 кГц
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
      * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const SLOWEST = '0.1';
+    public const KHZ_8 = '8000';
 }

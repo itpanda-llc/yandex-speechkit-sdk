@@ -2,25 +2,34 @@
 
 /**
  * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
  */
 
-namespace Panda\Yandex\SpeechKitSDK;
+namespace Panda\Yandex\SpeechKitSdk;
 
 /**
  * Class Limit
- * @package Panda\Yandex\SpeechKitSDK
- * Ограничения длины и(или) количества значений параметров
+ * @package Panda\Yandex\SpeechKitSdk
+ * Ограничения длины/размера и/или количества параметров
  */
 class Limit
 {
     /**
-     * Длина параметра "ID каталога"
+     * Длина параметра "Идентификатор каталога"
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
     public const FOLDER_ID_LENGTH = 50;
 
     /**
-     * Длина параметра "Текст для синтеза речи"
+     * Длина параметра "Размер передаваемого аудио"
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     */
+    public const RECOGNIZE_FILE_SIZE = 1000000;
+
+    /**
+     * Длина параметра "Текст, который нужно озвучить"
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
     public const SYNTHESIZE_TEXT_LENGTH = 5000;
 }

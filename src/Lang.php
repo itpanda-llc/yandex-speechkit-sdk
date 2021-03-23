@@ -2,30 +2,36 @@
 
 /**
  * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc
+ * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
  */
 
-namespace Panda\Yandex\SpeechKitSDK;
+namespace Panda\Yandex\SpeechKitSdk;
 
 /**
  * Class Lang
- * @package Panda\Yandex\SpeechKitSDK
- * Параметры языка
+ * @package Panda\Yandex\SpeechKitSdk
+ * Язык
  */
 class Lang
 {
     /**
-     * Русский
+     * Русский (По умолчанию)
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const RU = 'ru-RU';
+    public const RU_RU = 'ru-RU';
 
     /**
      * Английский
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const EN = 'en-US';
+    public const EN_US = 'en-US';
 
     /**
      * Турецкий
+     * @link https://cloud.yandex.ru/docs/speechkit/stt/request
+     * @link https://cloud.yandex.ru/docs/speechkit/tts/request
      */
-    public const TR = 'tr-TR';
+    public const TR_TR = 'tr-TR';
 }
