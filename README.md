@@ -1,4 +1,4 @@
-# Yandex-SpeechKit-PHP-SDK
+# Yandex-SpeechKit-SDK
 
 Библиотека для интеграции с сервисом речевых технологий ["Yandex SpeechKit"](https://cloud.yandex.ru/services/speechkit)
 

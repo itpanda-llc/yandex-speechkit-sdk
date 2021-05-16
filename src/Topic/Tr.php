@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Файл из репозитория Yandex-SpeechKit-PHP-SDK
- * @link https://github.com/itpanda-llc/yandex-speechkit-php-sdk
+ * Файл из репозитория Yandex-SpeechKit-SDK
+ * @link https://github.com/itpanda-llc/yandex-speechkit-sdk
  */
 
 namespace Panda\Yandex\SpeechKitSdk\Topic;
